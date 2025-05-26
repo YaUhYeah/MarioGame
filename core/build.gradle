@@ -1,0 +1,13 @@
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+eclipse.project.name = appName + '-core'
+
+dependencies {
+  api "com.badlogicgames.gdx:gdx:$gdxVersion"
+  api "com.crashinvaders.basisu:basisu-gdx:$gdxBasisUniversalVersion"
+  api "com.crashinvaders.basisu:basisu-wrapper:$gdxBasisUniversalVersion"
+  api "com.github.crykn:kryonet:$kryoNetVersion"
+
+  if(enableGraalNative == 'true') {
+    implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
+  }
+}
