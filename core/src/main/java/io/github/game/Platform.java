@@ -1,3 +1,4 @@
+// File: core/src/main/java/io/github/game/Platform.java
 package io.github.game;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -10,7 +11,7 @@ public class Platform {
     private Rectangle bounds;
     private PlatformType type;
     private Texture singleBlockTexture;
-    private Powerup.PowerupType containedPowerup;
+    private Powerup.PowerupType containedPowerup; // UPDATED: Now properly typed
     private boolean hasBeenHit;
     private String uniqueId;
 
@@ -89,7 +90,7 @@ public class Platform {
         this.bounds = new Rectangle(x, y, width, height);
         this.type = type;
         this.hasBeenHit = false;
-        this.containedPowerup = null;
+        this.containedPowerup = null; // UPDATED: Initialize as null
         this.uniqueId = x + "_" + y + "_" + type;
 
         if (type != PlatformType.GROUND) {
@@ -104,6 +105,7 @@ public class Platform {
         }
     }
 
+    // UPDATED: Properly typed setter and getter for contained powerup
     public void setContainedPowerup(Powerup.PowerupType powerup) {
         this.containedPowerup = powerup;
     }
@@ -115,9 +117,9 @@ public class Platform {
     public boolean hit() {
         if (type == PlatformType.QUESTION_BLOCK && !hasBeenHit) {
             hasBeenHit = true;
-            return true;
+            return true; // Successfully hit for the first time
         }
-        return false;
+        return false; // Already hit or not a question block
     }
 
     public boolean hasBeenHit() {

@@ -14,43 +14,115 @@ platforms: [
 	}
 	{
 		class: io.github.game.Level$PlatformData
-		x: 352
-		y: 256
+		x: 416
+		y: 128
 		width: 32
 		height: 32
-		type: QUESTION_BLOCK
-	}
-	{
-		class: io.github.game.Level$PlatformData
-		x: 480
-		y: 224
-		width: 32
-		height: 32
-		type: QUESTION_BLOCK
+		type: GRAVEL_BLOCK
 	}
 	{
 		class: io.github.game.Level$PlatformData
 		x: 416
-		y: 224
+		y: 128
 		width: 32
 		height: 32
-		type: COIN
+		type: GRAVEL_BLOCK
 	}
 	{
 		class: io.github.game.Level$PlatformData
-		x: 352
-		y: 224
+		x: 416
+		y: 128
 		width: 32
 		height: 32
-		type: COIN
+		type: GRAVEL_BLOCK
 	}
 	{
 		class: io.github.game.Level$PlatformData
-		x: 384
+		x: 416
+		y: 128
+		width: 32
+		height: 32
+		type: GRAVEL_BLOCK
+	}
+	{
+		class: io.github.game.Level$PlatformData
+		x: 416
+		y: 128
+		width: 32
+		height: 32
+		type: GRAVEL_BLOCK
+	}
+	{
+		class: io.github.game.Level$PlatformData
+		x: 416
+		y: 160
+		width: 32
+		height: 32
+		type: GRAVEL_BLOCK
+	}
+	{
+		class: io.github.game.Level$PlatformData
+		x: 448
+		y: 192
+		width: 32
+		height: 32
+		type: GRAVEL_BLOCK
+	}
+	{
+		class: io.github.game.Level$PlatformData
+		x: 480
+		y: 160
+		width: 32
+		height: 32
+		type: GRAVEL_BLOCK
+	}
+	{
+		class: io.github.game.Level$PlatformData
+		x: 544
+		y: 160
+		width: 32
+		height: 32
+		type: GRAVEL_BLOCK
+	}
+	{
+		class: io.github.game.Level$PlatformData
+		x: 576
+		y: 128
+		width: 32
+		height: 32
+		type: QUESTION_BLOCK
+	}
+	{
+		class: io.github.game.Level$PlatformData
+		x: 640
 		y: 128
 		width: 32
 		height: 32
 		type: COIN
+	}
+	{
+		class: io.github.game.Level$PlatformData
+		x: 672
+		y: 128
+		width: 32
+		height: 32
+		type: COIN
+	}
+	{
+		class: io.github.game.Level$PlatformData
+		x: 704
+		y: 128
+		width: 32
+		height: 32
+		type: COIN
+	}
+]
+enemies: [
+	{
+		class: io.github.game.Level$EnemyData
+		x: 544
+		y: 64
+		type: GOOMBA
 	}
 ]
 questionBlockContents: {}

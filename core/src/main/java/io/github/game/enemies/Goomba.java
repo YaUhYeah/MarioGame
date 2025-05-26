@@ -24,7 +24,7 @@ public class Goomba extends Enemy {
 
     // Modified Constructor to take Textures (or TextureRegions)
     public Goomba(Texture walkFrame1Tex, Texture walkFrame2Tex, Texture squashedTex, float x, float y) {
-        super(x, y, COLLISION_WIDTH, COLLISION_HEIGHT);
+        super(x, y, COLLISION_WIDTH, COLLISION_HEIGHT); // Enemy constructor sets facingRight = false by default
 
         Array<TextureRegion> frames = new Array<>();
         frames.add(new TextureRegion(walkFrame1Tex));
@@ -35,6 +35,7 @@ public class Goomba extends Enemy {
         // If squashedTex is just one of the walk frames, it's fine.
         // Example: if no specific squashed sprite, use walkFrame1Tex for squashedTextureRegion
 
+        // Initial velocity: Enemy.facingRight is false by default, so Goomba starts moving left.
         velocity.x = facingRight ? SPEED : -SPEED;
     }
 
@@ -51,12 +52,15 @@ public class Goomba extends Enemy {
 
         if (currentState == EnemyState.WALKING) {
             // Edge detection logic (simple version: turn if no ground immediately ahead)
-            float lookAheadX = position.x + (facingRight ? bounds.width : -bounds.width / 2f - 1); // Check slightly in front and down
-            float lookDownY = position.y - 1;
+            // Check slightly in front and down, relative to movement direction
+            float lookAheadOffset = facingRight ? bounds.width : -1; // Small offset in front of the bounding box
+            float lookAheadX = position.x + lookAheadOffset;
+            float lookDownY = position.y - 1; // Check just below the Goomba's feet
+
             boolean groundAhead = false;
             for (Platform p : platforms) {
                 if (p.getType() == Platform.PlatformType.COIN) continue;
-                // A small feeler rectangle
+                // A small feeler rectangle for ground detection ahead
                 Rectangle feeler = new Rectangle(lookAheadX, lookDownY, 1, 1);
                 if (p.getBounds().overlaps(feeler)) {
                     groundAhead = true;
@@ -64,8 +68,8 @@ public class Goomba extends Enemy {
                 }
             }
             if (!groundAhead && velocity.y == 0) { // If on ground (vy=0) and no ground ahead
-                facingRight = !facingRight;
-                velocity.x = facingRight ? SPEED : -SPEED;
+                facingRight = !facingRight; // Turn around
+                velocity.x = facingRight ? SPEED : -SPEED; // Update velocity based on new direction
             }
         }
     }
@@ -87,12 +91,16 @@ public class Goomba extends Enemy {
             float drawWidth = WIDTH;
             float drawHeight = (currentState == EnemyState.STOMPED) ? HEIGHT / 2f : HEIGHT;
 
-            boolean flipX = !facingRight; // Goombas face left by default in sprite usually
+            // If sprites are drawn facing LEFT by default:
+            // - To move LEFT (facingRight = false), don't flip (flipX = false).
+            // - To move RIGHT (facingRight = true), flip (flipX = true).
+            // This means flipX should be true when facingRight is true.
+            boolean flipX = facingRight; // Corrected logic
 
             batch.draw(currentFrame,
-                flipX ? drawX + drawWidth : drawX,
+                flipX ? drawX + drawWidth : drawX, // If flipping, adjust x-coordinate to keep position
                 drawY,
-                flipX ? -drawWidth : drawWidth,
+                flipX ? -drawWidth : drawWidth,    // Negative width flips the texture region
                 drawHeight);
         }
     }
@@ -103,6 +111,7 @@ public class Goomba extends Enemy {
             currentState = EnemyState.STOMPED;
             velocity.set(0, 0);
             stateTimer = 0f;
+            // SoundManager.getInstance().playEnemyStomp(); // Example: play stomp sound
         }
     }
 

@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.Array;
 public class Player {
 
     private Texture deathTexture;
-    public static final float DEATH_ANIMATION_DURATION = 1.5f;
+    public static final float DEATH_ANIMATION_DURATION = 1.5f; // Already present, good duration
     public enum State {
         IDLE, FALLING, WALKING, RUNNING, JUMPING, DUCKING, OPENING_DOOR, FULL_SPEED_JUMPING, DEATH, GROUND_POUNDING, GOING_DOWN_PIPE;
     }
@@ -39,6 +39,10 @@ public class Player {
     private Texture lookUpTexture;
     private Animation<Texture> walkAnimation;
 
+    // Added for Mario-style death animation
+    private static final float DEATH_JUMP_VELOCITY = 350f;
+    private static final float DEATH_GRAVITY = -900f; // Independent gravity for death sequence
+
     public Player(float x, float y){
         position = new Vector2(x,y);
         velocity = new Vector2(0, 0);
@@ -56,12 +60,16 @@ public class Player {
         lookUpTexture = new Texture("mario_sprites/playables/mario/mario_look_up.png");
         pipeTexture = new Texture("mario_sprites/playables/mario/mario_pipe.png");
         fallTexture = new Texture("mario_sprites/playables/mario/mario_fall.png");
-        if (Gdx.files.internal("mario_sprites/playables/mario/mario_death.png").exists()) {
-            deathTexture = new Texture("mario_sprites/playables/mario/mario_fall.png");
+
+        // Corrected deathTexture loading
+        String deathSpritePath = "mario_sprites/playables/mario/mario_death.png";
+        if (Gdx.files.internal(deathSpritePath).exists()) {
+            deathTexture = new Texture(Gdx.files.internal(deathSpritePath));
         } else {
-            deathTexture = fallTexture; // Placeholder
-            Gdx.app.log("Player", "Mario death texture not found, using fall texture as placeholder.");
+            deathTexture = fallTexture; // Use fallTexture as a fallback
+            Gdx.app.log("Player", "'" + deathSpritePath + "' not found, using fall texture for death animation.");
         }
+
         Array<Texture> walkFrames = new Array<Texture>();
         walkFrames.add(walkTexture0);
         walkFrames.add(walkTexture1);
@@ -72,33 +80,36 @@ public class Player {
     public void update(float deltaTime){
         stateTimer = currentState == previousState ? stateTimer + deltaTime : 0;
         previousState = currentState;
-        bounds.setPosition(position.x, position.y);
-        // Condition for falling state based on vertical velocity and not being grounded
-        if (velocity.y < 0 && !grounded && currentState != State.FALLING && currentState != State.DUCKING) {
-            setCurrentState(State.FALLING);
-        } else if (velocity.y == 0 && !grounded && currentState == State.JUMPING && currentState != State.FALLING) {
-            // If apex of jump is reached (velocity.y is 0 but not yet falling due to gravity next frame)
-            // it might be better to transition to FALLING when velocity.y < 0 consistently
+
+        if (currentState == State.DEATH) {
+            // Apply death physics (vertical jump and fall)
+            velocity.y += DEATH_GRAVITY * deltaTime;
+            position.y += velocity.y * deltaTime;
+            // position.x remains unchanged as velocity.x is set to 0 in die()
+            bounds.setPosition(position.x, position.y);
+            // No platform collision checks during the death animation itself
+        } else {
+            // Existing update logic for non-death states
+            bounds.setPosition(position.x, position.y);
+            // Condition for falling state based on vertical velocity and not being grounded
+            if (velocity.y < 0 && !grounded && currentState != State.FALLING && currentState != State.DUCKING && currentState != State.GOING_DOWN_PIPE) {
+                setCurrentState(State.FALLING);
+            }
         }
     }
 
     public void render(SpriteBatch batch){
         Texture currentFrame = getFrame();
 
-        boolean flipX = !facingRight;
+        boolean flipX = !facingRight; // Player faces right by default, flip if not facingRight
 
+        // Standard drawing logic
         batch.draw(
             currentFrame,
-            position.x,
+            flipX ? position.x + PLAYER_WIDTH : position.x, // Adjust x for flipped sprite
             position.y,
-            PLAYER_WIDTH,
-            PLAYER_HEIGHT,
-            0,
-            0,
-            currentFrame.getWidth(),
-            currentFrame.getHeight(),
-            flipX,
-            false
+            flipX ? -PLAYER_WIDTH : PLAYER_WIDTH, // Negative width to flip
+            PLAYER_HEIGHT
         );
     }
 
@@ -112,6 +123,8 @@ public class Player {
                 return duckTexture;
             case FALLING:
                 return fallTexture;
+            case DEATH: // Use deathTexture for the death animation
+                return deathTexture;
             case IDLE:
             default:
                 return idleTexture;
@@ -165,11 +178,14 @@ public class Player {
         walkTexture0.dispose();
         walkTexture1.dispose();
         walkTexture2.dispose();
-        jumpTexture.dispose(); // was missing jumpTexture
+        jumpTexture.dispose();
         fallTexture.dispose();
         duckTexture.dispose();
         lookUpTexture.dispose();
         pipeTexture.dispose();
+        if (deathTexture != null && deathTexture != fallTexture) { // Dispose only if it's a unique loaded texture
+            deathTexture.dispose();
+        }
     }
 
     public State getPreviousState() {
@@ -196,12 +212,14 @@ public class Player {
         this.bounds = bounds;
     }
 
-
-    // ADDED: die method
     public void die() {
         if (currentState != State.DEATH) {
             setCurrentState(State.DEATH);
-            velocity.set(0, 0); // Stop horizontal movementg
+            velocity.y = DEATH_JUMP_VELOCITY; // Mario-style upward pop
+            velocity.x = 0; // Stop horizontal movement
+            grounded = false; // Player is in the air
+            stateTimer = 0f; // Reset timer for the death sequence duration
+            SoundManager.getInstance().playPlayerDeath(); // Play death sound
         }
     }
     public void respawn(float x, float y) {
@@ -209,7 +227,7 @@ public class Player {
         velocity.set(0, 0);
         setCurrentState(State.IDLE);
         grounded = true; // Assume respawn on ground
-        facingRight = true;
+        facingRight = true; // Default facing direction
         stateTimer = 0f;
     }
     public Texture getIdleTexture() { return idleTexture; }
