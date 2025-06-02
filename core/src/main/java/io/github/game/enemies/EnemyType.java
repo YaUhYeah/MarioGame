@@ -2,7 +2,8 @@
 package io.github.game.enemies;
 
 public enum EnemyType {
-    GOOMBA("Goomba");
+    GOOMBA("Goomba"),
+    KOOPA("Koopa Troopa"); // NEW: Added Koopa Troopa
     // Add other enemy types here in the future, e.g., KOOPA_TROOPA
 
     private final String displayName;

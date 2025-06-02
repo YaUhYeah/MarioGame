@@ -21,8 +21,13 @@ public class Powerup {
             this.texturePath = texturePath;
         }
 
-        public String getName() { return name; }
-        public String getTexturePath() { return texturePath; }
+        public String getName() {
+            return name;
+        }
+
+        public String getTexturePath() {
+            return texturePath;
+        }
     }
 
     private PowerupType type;
@@ -32,6 +37,10 @@ public class Powerup {
     private Texture texture;
     private boolean active;
     private float animationTimer;
+
+    public Vector2 getVelocity() {
+        return velocity;
+    }
 
     public static final float POWERUP_SIZE = 32f;
     private static final float SPAWN_VELOCITY = 50f;
@@ -105,7 +114,7 @@ public class Powerup {
         if (!active || texture == null) return;
 
         // Add slight bobbing animation
-        float yOffset = (float)Math.sin(animationTimer * 3) * 2;
+        float yOffset = (float) Math.sin(animationTimer * 3) * 2;
 
         batch.draw(texture, position.x, position.y + yOffset, POWERUP_SIZE, POWERUP_SIZE);
     }
@@ -119,10 +128,21 @@ public class Powerup {
         System.out.println(type.getName() + " collected!");
     }
 
-    public PowerupType getType() { return type; }
-    public boolean isActive() { return active; }
-    public Vector2 getPosition() { return position; }
-    public Rectangle getBounds() { return bounds; }
+    public PowerupType getType() {
+        return type;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    public Rectangle getBounds() {
+        return bounds;
+    }
 
     public void dispose() {
         if (texture != null) {

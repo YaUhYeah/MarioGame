@@ -23,7 +23,7 @@ public class Platform {
     private static Texture texGrassMiddle;
     private static Texture texGrassCornerRight;
     private static Texture texDirtMiddle;
-    private static Texture texQuestionBlockEmpty;
+    private static Texture texQuestionBlockUsed; // UPDATED: Changed from Empty to Used
 
     // Static map for textures
     private static ObjectMap<PlatformType, Texture> otherBlockTextures;
@@ -50,6 +50,7 @@ public class Platform {
             String qbPath = "mario_sprites/world/question_block.png";
             if (Gdx.files.internal(qbPath).exists()) {
                 otherBlockTextures.put(PlatformType.QUESTION_BLOCK, new Texture(qbPath));
+                Gdx.app.log("Platform", "Successfully loaded question block texture: " + qbPath);
             } else {
                 System.err.println("Warning: Texture not found: " + qbPath);
                 if (otherBlockTextures.containsKey(PlatformType.GRAVEL_BLOCK)) {
@@ -57,13 +58,34 @@ public class Platform {
                 }
             }
 
-            // Try to load empty question block texture
-            String emptyQbPath = "mario_sprites/world/question_block_empty.png";
-            if (Gdx.files.internal(emptyQbPath).exists()) {
-                texQuestionBlockEmpty = new Texture(emptyQbPath);
+            // FIXED: Load used question block texture with proper path and better error handling
+            String usedQbPath = "mario_sprites/world/used_question_block.png";
+            if (Gdx.files.internal(usedQbPath).exists()) {
+                texQuestionBlockUsed = new Texture(usedQbPath);
+                Gdx.app.log("Platform", "Successfully loaded used question block texture: " + usedQbPath);
             } else {
-                // Use gravel as fallback for empty question block
-                texQuestionBlockEmpty = otherBlockTextures.get(PlatformType.GRAVEL_BLOCK);
+                // Try alternative paths
+                String[] altPaths = {
+                    "mario_sprites/world/question_block_empty.png",
+                    "mario_sprites/world/empty_question_block.png",
+                    "mario_sprites/world/hit_question_block.png"
+                };
+
+                boolean loaded = false;
+                for (String altPath : altPaths) {
+                    if (Gdx.files.internal(altPath).exists()) {
+                        texQuestionBlockUsed = new Texture(altPath);
+                        Gdx.app.log("Platform", "Loaded used question block from alternative path: " + altPath);
+                        loaded = true;
+                        break;
+                    }
+                }
+
+                if (!loaded) {
+                    // Use gravel as fallback for used question block
+                    texQuestionBlockUsed = otherBlockTextures.get(PlatformType.GRAVEL_BLOCK);
+                    Gdx.app.error("Platform", "Used question block texture not found at: " + usedQbPath + " or alternative paths. Using gravel as fallback.");
+                }
             }
 
             String coinPath = "mario_sprites/world/coin.png";
@@ -117,6 +139,7 @@ public class Platform {
     public boolean hit() {
         if (type == PlatformType.QUESTION_BLOCK && !hasBeenHit) {
             hasBeenHit = true;
+            Gdx.app.log("Platform", "Question block hit! Changing to used texture.");
             return true; // Successfully hit for the first time
         }
         return false; // Already hit or not a question block
@@ -152,10 +175,10 @@ public class Platform {
 
     private void renderQuestionBlock(SpriteBatch batch) {
         Texture textureToDraw;
-        if (hasBeenHit && texQuestionBlockEmpty != null) {
-            textureToDraw = texQuestionBlockEmpty;
+        if (hasBeenHit && texQuestionBlockUsed != null) {
+            textureToDraw = texQuestionBlockUsed; // FIXED: Use the used texture when hit
         } else if (singleBlockTexture != null) {
-            textureToDraw = singleBlockTexture;
+            textureToDraw = singleBlockTexture; // Use normal question block texture
         } else {
             return;
         }
@@ -211,7 +234,7 @@ public class Platform {
         if (texGrassMiddle != null) texGrassMiddle.dispose();
         if (texGrassCornerRight != null) texGrassCornerRight.dispose();
         if (texDirtMiddle != null) texDirtMiddle.dispose();
-        if (texQuestionBlockEmpty != null) texQuestionBlockEmpty.dispose();
+        if (texQuestionBlockUsed != null) texQuestionBlockUsed.dispose(); // UPDATED
 
         if (otherBlockTextures != null) {
             for (Texture tex : otherBlockTextures.values()) {

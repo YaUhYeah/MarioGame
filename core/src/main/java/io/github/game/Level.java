@@ -37,7 +37,7 @@ public class Level implements Json.Serializable {
         }
     }
 
-    // NEW: Powerup data class for standalone powerups
+    // Powerup data class for standalone powerups
     public static class PowerupData {
         public float x, y;
         public String type; // e.g., "MUSHROOM", "FIRE_FLOWER", etc.
@@ -51,10 +51,23 @@ public class Level implements Json.Serializable {
         }
     }
 
+    // NEW: Goal post data class
+    public static class GoalPostData {
+        public float x, y;
+
+        public GoalPostData() {} // For JSON deserialization
+
+        public GoalPostData(float x, float y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
     private String name;
     private Array<PlatformData> platformData;
     private Array<EnemyData> enemyData;
-    private Array<PowerupData> powerupData; // NEW: Array for standalone powerups
+    private Array<PowerupData> powerupData;
+    private GoalPostData goalPostData; // NEW: Goal post data
     private float playerStartX, playerStartY;
     private String backgroundMusic;
     private float musicVolume;
@@ -65,7 +78,8 @@ public class Level implements Json.Serializable {
         this.name = "Untitled Level";
         this.platformData = new Array<>();
         this.enemyData = new Array<>();
-        this.powerupData = new Array<>(); // NEW: Initialize powerup data
+        this.powerupData = new Array<>();
+        this.goalPostData = null; // NEW: Initialize as null
         this.playerStartX = 150;
         this.playerStartY = Platform.GROUND_TILE_SIZE * 2;
         this.backgroundMusic = "music/level1.mp3";
@@ -94,9 +108,14 @@ public class Level implements Json.Serializable {
     public Array<EnemyData> getEnemyData() { return enemyData; }
     public String getBackgroundTexturePath() { return backgroundTexturePath; }
     public void setBackgroundTexturePath(String path) { this.backgroundTexturePath = path; }
-
-    // NEW: Powerup data getters
     public Array<PowerupData> getPowerupData() { return powerupData; }
+
+    // NEW: Goal post getters and setters
+    public GoalPostData getGoalPostData() { return goalPostData; }
+    public void setGoalPostData(GoalPostData goalPostData) { this.goalPostData = goalPostData; }
+    public void setGoalPost(float x, float y) {
+        this.goalPostData = new GoalPostData(x, y);
+    }
 
     public void setQuestionBlockContent(String blockId, Powerup.PowerupType powerup) {
         questionBlockContents.put(blockId, powerup);
@@ -136,13 +155,21 @@ public class Level implements Json.Serializable {
         enemyData.removeValue(data, true);
     }
 
-    // NEW: Powerup methods
+    // Powerup methods
     public void addPowerup(PowerupData data) {
         powerupData.add(data);
     }
 
     public void removePowerup(PowerupData data) {
         powerupData.removeValue(data, true);
+    }
+
+    // NEW: Goal post creation method
+    public GoalPost createGoalPost() {
+        if (goalPostData != null) {
+            return new GoalPost(goalPostData.x, goalPostData.y);
+        }
+        return null;
     }
 
     @Override
@@ -155,7 +182,8 @@ public class Level implements Json.Serializable {
         json.writeValue("backgroundTexturePath", backgroundTexturePath);
         json.writeValue("platforms", platformData);
         json.writeValue("enemies", enemyData);
-        json.writeValue("powerups", powerupData); // NEW: Serialize powerups
+        json.writeValue("powerups", powerupData);
+        json.writeValue("goalPost", goalPostData); // NEW: Serialize goal post
         json.writeValue("questionBlockContents", questionBlockContents);
     }
 
@@ -189,7 +217,7 @@ public class Level implements Json.Serializable {
             }
         }
 
-        // NEW: Deserialize powerups
+        // Deserialize powerups
         powerupData.clear();
         JsonValue powerupsJson = jsonData.get("powerups");
         if (powerupsJson != null) {
@@ -200,6 +228,16 @@ public class Level implements Json.Serializable {
                 data.type = powerupJson.getString("type");
                 powerupData.add(data);
             }
+        }
+
+        // NEW: Deserialize goal post
+        JsonValue goalPostJson = jsonData.get("goalPost");
+        if (goalPostJson != null) {
+            goalPostData = new GoalPostData();
+            goalPostData.x = goalPostJson.getFloat("x");
+            goalPostData.y = goalPostJson.getFloat("y");
+        } else {
+            goalPostData = null;
         }
 
         questionBlockContents.clear();
