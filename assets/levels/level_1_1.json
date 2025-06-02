@@ -1,0 +1,371 @@
+{
+  "name": "level 1 1",
+  "playerStartX": 150,
+  "playerStartY": 64,
+  "backgroundMusic": "music/level1.mp3",
+  "musicVolume": 0.5,
+  "backgroundTexturePath": "mario_sprites/backgrounds/background_0.png",
+  "platforms": [
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 0,
+      "y": 0,
+      "width": 800,
+      "height": 64,
+      "type": "GROUND"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 200,
+      "y": 96,
+      "width": 32,
+      "height": 32,
+      "type": "GRAVEL_BLOCK"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 300,
+      "y": 128,
+      "width": 32,
+      "height": 32,
+      "type": "QUESTION_BLOCK",
+      "containedPowerup": "MUSHROOM"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 350,
+      "y": 96,
+      "width": 32,
+      "height": 32,
+      "type": "COIN"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 382,
+      "y": 96,
+      "width": 32,
+      "height": 32,
+      "type": "COIN"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 414,
+      "y": 96,
+      "width": 32,
+      "height": 32,
+      "type": "COIN"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 500,
+      "y": 128,
+      "width": 64,
+      "height": 32,
+      "type": "GRAVEL_BLOCK"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 532,
+      "y": 192,
+      "width": 32,
+      "height": 32,
+      "type": "QUESTION_BLOCK",
+      "containedPowerup": "FIRE_FLOWER"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 880,
+      "y": 0,
+      "width": 320,
+      "height": 64,
+      "type": "GROUND"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 950,
+      "y": 96,
+      "width": 32,
+      "height": 32,
+      "type": "COIN"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 1000,
+      "y": 128,
+      "width": 32,
+      "height": 32,
+      "type": "GRAVEL_BLOCK"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 1032,
+      "y": 160,
+      "width": 32,
+      "height": 32,
+      "type": "GRAVEL_BLOCK"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 1064,
+      "y": 192,
+      "width": 32,
+      "height": 32,
+      "type": "GRAVEL_BLOCK"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 1096,
+      "y": 224,
+      "width": 32,
+      "height": 32,
+      "type": "GRAVEL_BLOCK"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 1150,
+      "y": 192,
+      "width": 32,
+      "height": 32,
+      "type": "COIN"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 1280,
+      "y": 0,
+      "width": 480,
+      "height": 64,
+      "type": "GROUND"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 1350,
+      "y": 128,
+      "width": 32,
+      "height": 32,
+      "type": "GRAVEL_BLOCK"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 1382,
+      "y": 128,
+      "width": 32,
+      "height": 32,
+      "type": "QUESTION_BLOCK",
+      "containedPowerup": "STAR"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 1414,
+      "y": 128,
+      "width": 32,
+      "height": 32,
+      "type": "GRAVEL_BLOCK"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 1500,
+      "y": 160,
+      "width": 32,
+      "height": 32,
+      "type": "COIN"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 1532,
+      "y": 160,
+      "width": 32,
+      "height": 32,
+      "type": "COIN"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 1600,
+      "y": 96,
+      "width": 96,
+      "height": 32,
+      "type": "GRAVEL_BLOCK"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 1632,
+      "y": 160,
+      "width": 32,
+      "height": 32,
+      "type": "QUESTION_BLOCK",
+      "containedPowerup": "MUSHROOM"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 1840,
+      "y": 0,
+      "width": 640,
+      "height": 64,
+      "type": "GROUND"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 1950,
+      "y": 128,
+      "width": 32,
+      "height": 32,
+      "type": "GRAVEL_BLOCK"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 1982,
+      "y": 160,
+      "width": 32,
+      "height": 32,
+      "type": "GRAVEL_BLOCK"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 2014,
+      "y": 192,
+      "width": 32,
+      "height": 32,
+      "type": "GRAVEL_BLOCK"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 2046,
+      "y": 224,
+      "width": 32,
+      "height": 32,
+      "type": "GRAVEL_BLOCK"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 2100,
+      "y": 192,
+      "width": 32,
+      "height": 32,
+      "type": "COIN"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 2200,
+      "y": 160,
+      "width": 64,
+      "height": 32,
+      "type": "GRAVEL_BLOCK"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 2232,
+      "y": 224,
+      "width": 32,
+      "height": 32,
+      "type": "QUESTION_BLOCK",
+      "containedPowerup": "FIRE_FLOWER"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 2350,
+      "y": 128,
+      "width": 32,
+      "height": 32,
+      "type": "COIN"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 2382,
+      "y": 160,
+      "width": 32,
+      "height": 32,
+      "type": "COIN"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 2414,
+      "y": 192,
+      "width": 32,
+      "height": 32,
+      "type": "COIN"
+    },
+    {
+      "class": "io.github.game.Level$PlatformData",
+      "x": 2560,
+      "y": 0,
+      "width": 320,
+      "height": 64,
+      "type": "GROUND"
+    }
+  ],
+  "enemies": [
+    {
+      "class": "io.github.game.Level$EnemyData",
+      "x": 250,
+      "y": 64,
+      "type": "GOOMBA"
+    },
+    {
+      "class": "io.github.game.Level$EnemyData",
+      "x": 450,
+      "y": 64,
+      "type": "GOOMBA"
+    },
+    {
+      "class": "io.github.game.Level$EnemyData",
+      "x": 650,
+      "y": 64,
+      "type": "KOOPA"
+    },
+    {
+      "class": "io.github.game.Level$EnemyData",
+      "x": 950,
+      "y": 64,
+      "type": "GOOMBA"
+    },
+    {
+      "class": "io.github.game.Level$EnemyData",
+      "x": 1400,
+      "y": 64,
+      "type": "KOOPA"
+    },
+    {
+      "class": "io.github.game.Level$EnemyData",
+      "x": 1700,
+      "y": 64,
+      "type": "GOOMBA"
+    },
+    {
+      "class": "io.github.game.Level$EnemyData",
+      "x": 2000,
+      "y": 64,
+      "type": "GOOMBA"
+    },
+    {
+      "class": "io.github.game.Level$EnemyData",
+      "x": 2300,
+      "y": 64,
+      "type": "KOOPA"
+    }
+  ],
+  "powerups": [
+    {
+      "class": "io.github.game.Level$PowerupData",
+      "x": 300,
+      "y": 160,
+      "type": "MUSHROOM"
+    },
+    {
+      "class": "io.github.game.Level$PowerupData",
+      "x": 800,
+      "y": 64,
+      "type": "CHICKEN"
+    },
+    {
+      "class": "io.github.game.Level$PowerupData",
+      "x": 1500,
+      "y": 64,
+      "type": "FIRE_FLOWER"
+    }
+  ],
+  "goalPost": {
+    "class": "io.github.game.Level$GoalPostData",
+    "x": 2800,
+    "y": 64
+  },
+  "questionBlockContents": {}
+}
